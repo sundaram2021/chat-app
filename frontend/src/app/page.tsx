@@ -17,7 +17,14 @@ export default function Home() {
     if (!name.trim()) return alert('Enter your name');
     localStorage.setItem('chatName', name);
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SOCKET_URL}/create-${type}`);
+    // make it post request
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SOCKET_URL}/create-${type}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userName: name }),
+    });
     const data = await res.json();
     router.push(`/chat?room=${data.roomId}`);
   };
