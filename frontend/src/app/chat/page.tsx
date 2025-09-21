@@ -106,10 +106,11 @@ function Chat() {
 }
 
 
-export function ChatComponent() {
+export default function ChatComponent() {
   return (
     <Suspense fallback={<h2>Loading....</h2>}>
         <Chat />
     </Suspense>
   )
 }
+

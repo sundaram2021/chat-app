@@ -13,7 +13,7 @@ jobs:
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: your-org-id  # From Vercel account
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  # From Vercel account
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: ./frontend
 
@@ -27,3 +27,4 @@ jobs:
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
           wait-for-success: true
+          working-directory: ./backend

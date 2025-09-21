@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node --watch server.js"
+    "start": "node server.js",
+    "build": "npm install"
   },
   "keywords": [],
   "author": "",
