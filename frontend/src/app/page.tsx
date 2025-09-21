@@ -1,12 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const [name, setName] = useState(localStorage.getItem('chatName') || '');
+  const [name, setName] = useState('');
   const [roomId, setRoomId] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    const savedName = localStorage.getItem('chatName') || '';
+    setName(savedName);
+  }, []);
 
   const handleCreate = async (type: 'single' | 'group') => {
     if (!name.trim()) return alert('Enter your name');
@@ -17,10 +22,10 @@ export default function Home() {
     router.push(`/chat?room=${data.roomId}`);
   };
 
-  const handleJoin = async() => {
+  const handleJoin = async () => {
     if (!name.trim() || !roomId.trim()) return alert('Enter name and room ID');
     localStorage.setItem('chatName', name);
-    
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_SOCKET_URL}/single-full/${roomId}`);
     const data = await res.json();
     if (data.full) {
