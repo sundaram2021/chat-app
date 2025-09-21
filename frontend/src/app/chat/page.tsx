@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import io, { Socket } from 'socket.io-client';
 
 let socket: Socket | null = null;
 
-export default function Chat() {
+
+function Chat() {
     const [messages, setMessages] = useState<{ user?: string; text: string; system?: boolean }[]>([]);
     const [input, setInput] = useState('');
     const searchParams = useSearchParams();
@@ -22,7 +23,8 @@ export default function Chat() {
             return;
         }
 
-        socket = io('http://localhost:5000');
+        // take it from .env
+        socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:5000');
 
         socket.emit('join room', { roomId, userName });
 
@@ -101,4 +103,13 @@ export default function Chat() {
             </form>
         </div>
     );
+}
+
+
+export function ChatComponent() {
+  return (
+    <Suspense fallback={<h2>Loading....</h2>}>
+        <Chat />
+    </Suspense>
+  )
 }

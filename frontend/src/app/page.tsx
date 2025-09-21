@@ -11,7 +11,8 @@ export default function Home() {
   const handleCreate = async (type: 'single' | 'group') => {
     if (!name.trim()) return alert('Enter your name');
     localStorage.setItem('chatName', name);
-    const res = await fetch(`http://localhost:5000/create-${type}`);
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SOCKET_URL}/create-${type}`);
     const data = await res.json();
     router.push(`/chat?room=${data.roomId}`);
   };
@@ -19,7 +20,8 @@ export default function Home() {
   const handleJoin = async() => {
     if (!name.trim() || !roomId.trim()) return alert('Enter name and room ID');
     localStorage.setItem('chatName', name);
-    const res = await fetch(`http://localhost:5000/single-full/${roomId}`);
+    
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SOCKET_URL}/single-full/${roomId}`);
     const data = await res.json();
     if (data.full) {
       return alert('This single chat room is full. Please join or create a group chat.');
